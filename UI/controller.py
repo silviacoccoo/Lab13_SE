@@ -7,7 +7,7 @@ class Controller:
         self._view = view
         self._model = model
 
-    # Punto 1.4
+    # Punto 1.4 (il primo bottone)
     def handle_graph(self, e):
         """ Handler per gestire creazione del grafo """""
         # Creo il grafo
@@ -34,9 +34,11 @@ class Controller:
 
             if threshold < 3 or threshold > 7:
                 self._view.show_alert('Valore fuori dalla soglia')
+                return
 
             count_bigger, count_smaller= self._model.count_edges(threshold)
 
+            self._view.lista_visualizzazione_2.controls.clear() # RESET
             self._view.lista_visualizzazione_2.controls.append(
                 ft.Text(f'Numero archi con peso maggiore della soglia: {count_bigger}')
             )

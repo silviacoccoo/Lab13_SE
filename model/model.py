@@ -27,7 +27,7 @@ class Model:
     def load_geni(self):
         self._lista_geni=DAO.get_geni() # Lista di oggetti
 
-        self.id_map={} # RESET
+        self.id_map={} # Un dizionario che avrà come chiave l'id del gene e come valore associato il cromosoma
 
         for gene in self._lista_geni:
             self.id_map[gene.id]=gene.cromosoma
@@ -54,11 +54,13 @@ class Model:
 
         edges={}
         for g1, g2, corr in self._lista_geni_connessi:
-            if (self.id_map[g1.id], self.id_map[g2.id]) not in edges:
-                edges[(self.id_map[g1.id], self.id_map[g2.id])]=float(corr)
+            if (self.id_map[g1], self.id_map[g2]) not in edges: # Se non si trova ancora nel dizionario
+                edges[(self.id_map[g1], self.id_map[g2])]=float(corr)
+                # Associa la tupla dei due id al valore di correlazione
             else:
-                edges[(self.id_map[g1.id], self.id_map[g2.id])]+=float(corr)
+                edges[(self.id_map[g1], self.id_map[g2])]+=float(corr)
 
+        # Una volta terminato il ciclo aggiungo, sempre con un ciclo, alla lista self._edges le tuple di valori
         for key, value in edges.items():
             self._edges.append((key[0], key[1], value))
 
@@ -85,6 +87,7 @@ class Model:
 
     # Punto 1.6
     def count_edges(self, t):
+        # t è il valore soglia inserito
         count_bigger = 0
         count_smaller = 0
         for x in self.get_edges():  # 1. Iterazione

@@ -17,7 +17,7 @@ class DAO:
         cursor = conn.cursor(dictionary=True)
         query=""" SELECT DISTINCT cromosoma FROM gene WHERE cromosoma!=0"""
         cursor.execute(query)
-        # E' necessario che non ci siano ripetizioni !!!
+        # Necessario che non ci siano ripetizioni!
         for row in cursor:
             result.append(row['cromosoma'])
 
@@ -64,7 +64,7 @@ class DAO:
                 AND g2.cromosoma != 0 AND g1.cromosoma != 0
         GROUP BY g1.id, g2.id
         """
-        # Per ogni coppia di geni
+        # Per fare attenzione a contare la coppia di geni una sola volta, raggruppiamo per i geni dalle tabelle g1 e g2
 
         cursor.execute(query)
         for row in cursor:
