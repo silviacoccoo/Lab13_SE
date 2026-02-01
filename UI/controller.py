@@ -6,6 +6,7 @@ class Controller:
     def __init__(self, view: View, model: Model):
         self._view = view
         self._model = model
+        self.flag = True
 
     # Punto 1.4 (il primo bottone)
     def handle_graph(self, e):
@@ -53,4 +54,43 @@ class Controller:
 
     def handle_ricerca(self, e):
         """ Handler per gestire il problema ricorsivo di ricerca del cammino """""
+
+        if self.flag:
+            self.flag = False
+            try:
+                threshold = float(self._view.txt_name.value)
+                self._model.ricerca_cammino(threshold)
+                self._view.lista_visualizzazione_3.controls.clear()
+                self._view.lista_visualizzazione_3.controls.append(
+                    ft.Text(f"Numero archi percorso più lungo: {len(self._model.soluzione_best)}"))
+                self._view.update()
+
+                self._view.lista_visualizzazione_3.controls.append(ft.Text(
+                    f"Peso cammino massimo: {str(self._model.compute_weight_path(self._model.soluzione_best))}"))
+
+                for ii in self._model.soluzione_best:
+                    self._view.lista_visualizzazione_3.controls.append(ft.Text(
+                        f"{ii[0]} --> {ii[1]}: {str(ii[2]['weight'])}"))
+            except ValueError:
+                self._view.show_alert("Valore numerico non non valido!")
+
+            self._view.update()
+
+        """
+        t_str=self._view.txt_name.value
+        if t_str is None:
+            self._view.show_alert('Selezionare una squadra!')
+            return
+        t=float(t_str)
+        best_path, best_score=self._model.get_best_solution(t)
+
+        self._view.lista_visualizzazione_3.controls.clear()
+        self._view.lista_visualizzazione_3.controls.append(
+            ft.Text(f'Numero archi percorso più lungo: {len(best_path)}')
+        )
+        self._view.lista_visualizzazione_3.controls.append(
+            ft.Text(f'Peso cammino massimo: {best_score}')
+        )
+        self._view.update()
+        """
         # TODO
