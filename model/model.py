@@ -136,10 +136,12 @@ class Model:
             return
 
         for n in neigh:
-            print("...")
+
             partial_nodes.append(n)
             partial_edges.append((n_last, n, self.G.get_edge_data(n_last, n)))
+
             self.ricorsione(partial_nodes, partial_edges, t)
+
             partial_nodes.pop()
             partial_edges.pop()
 

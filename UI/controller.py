@@ -59,10 +59,14 @@ class Controller:
             self.flag = False
             try:
                 threshold = float(self._view.txt_name.value)
+
                 self._model.ricerca_cammino(threshold)
+
                 self._view.lista_visualizzazione_3.controls.clear()
+
                 self._view.lista_visualizzazione_3.controls.append(
                     ft.Text(f"Numero archi percorso più lungo: {len(self._model.soluzione_best)}"))
+
                 self._view.update()
 
                 self._view.lista_visualizzazione_3.controls.append(ft.Text(
@@ -71,7 +75,9 @@ class Controller:
                 for ii in self._model.soluzione_best:
                     self._view.lista_visualizzazione_3.controls.append(ft.Text(
                         f"{ii[0]} --> {ii[1]}: {str(ii[2]['weight'])}"))
+
             except ValueError:
+
                 self._view.show_alert("Valore numerico non non valido!")
 
             self._view.update()
